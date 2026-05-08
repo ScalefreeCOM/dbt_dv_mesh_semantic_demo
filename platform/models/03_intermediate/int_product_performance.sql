@@ -1,5 +1,5 @@
--- Aggregates sales and return metrics to product level.
--- Grain: one row per product.
+{# Aggregates sales and return metrics to product level.
+   Grain: one row per product. #}
 
 {%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
     hash_function=var('datavault4dbt.hash', 'MD5'),

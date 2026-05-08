@@ -1,5 +1,5 @@
--- Aggregates order history to customer level for use in customer dimensions.
--- Grain: one row per customer.
+{# Aggregates order history to customer level for use in customer dimensions.
+   Grain: one row per customer. #}
 
 {%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
     hash_function=var('datavault4dbt.hash', 'MD5'),

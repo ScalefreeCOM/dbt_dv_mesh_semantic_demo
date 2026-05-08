@@ -1,5 +1,5 @@
--- Summarizes shipment data at order level, computing delivery performance metrics.
--- Grain: one row per order.
+{# Summarizes shipment data at order level, computing delivery performance metrics.
+   Grain: one row per order. #}
 
 {%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
     hash_function=var('datavault4dbt.hash', 'MD5'),

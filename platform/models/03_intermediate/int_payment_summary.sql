@@ -1,5 +1,5 @@
--- Summarizes payment information at order level.
--- Grain: one row per order (most recent / primary payment record).
+{# Summarizes payment information at order level.
+   Grain: one row per order (most recent / primary payment record). #}
 
 {%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
     hash_function=var('datavault4dbt.hash', 'MD5'),
