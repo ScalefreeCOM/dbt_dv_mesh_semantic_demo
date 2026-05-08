@@ -1,11 +1,6 @@
 {# Aggregates order history to customer level for use in customer dimensions.
    Grain: one row per customer. #}
 
-{%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
-    hash_function=var('datavault4dbt.hash', 'MD5'),
-    hash_datatype=var('datavault4dbt.hash_datatype', 'STRING')
-)) -%}
-
 with orders as (
     select * from {{ ref('int_orders_enriched') }}
     where order_status not in ('cancelled', 'pending')
@@ -16,7 +11,7 @@ returns as (
     from {{ ref('return_h') }} r
     join {{ ref('return_order_order_item_l') }} rl on r.hk_return_h = rl.hk_return_h
     join {{ ref('order_h') }} o                    on rl.hk_order_h = o.hk_order_h
-    where r.hk_return_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
+    where r.hk_return_h not in ({{ unknown_key() }}, {{ error_key() }})
 ),
 
 -- Most frequently ordered category per customer
@@ -38,7 +33,7 @@ category_orders as (
         from {{ ref('product_pim_n_s_v1') }}
         where is_current = true
     ) ps on ph.hk_product_h = ps.hk_product_h
-    where ph.hk_product_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
+    where ph.hk_product_h not in ({{ unknown_key() }}, {{ error_key() }})
     group by o.customer_id, ps.category
 ),
 

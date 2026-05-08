@@ -1,8 +1,3 @@
-{%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
-    hash_function=var('datavault4dbt.hash', 'MD5'),
-    hash_datatype=var('datavault4dbt.hash_datatype', 'STRING')
-)) -%}
-
 with order_items as (
     select
         oi.order_item_id,
@@ -24,7 +19,7 @@ with order_items as (
     join {{ ref('order_item_h') }} oi  on nl.hk_order_item_h = oi.hk_order_item_h
     join {{ ref('order_h') }} o        on nl.hk_order_h      = o.hk_order_h
     join {{ ref('product_h') }} p      on nl.hk_product_h    = p.hk_product_h
-    where oi.hk_order_item_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
+    where oi.hk_order_item_h not in ({{ unknown_key() }}, {{ error_key() }})
 ),
 
 current_order_sat as (
@@ -43,7 +38,7 @@ orders as (
     join {{ ref('order_customer_l') }} l   on o.hk_order_h   = l.hk_order_h
     join {{ ref('customer_h') }} c         on l.hk_customer_h = c.hk_customer_h
     join current_order_sat s               on o.hk_order_h   = s.hk_order_h
-    where o.hk_order_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
+    where o.hk_order_h not in ({{ unknown_key() }}, {{ error_key() }})
 ),
 
 returns as (

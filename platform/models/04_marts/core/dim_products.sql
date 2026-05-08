@@ -1,8 +1,3 @@
-{%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
-    hash_function=var('datavault4dbt.hash', 'MD5'),
-    hash_datatype=var('datavault4dbt.hash_datatype', 'STRING')
-)) -%}
-
 with current_s as (
     select *
     from {{ ref('product_pim_n_s_v1') }}
@@ -32,7 +27,7 @@ products as (
         h.ldts                                                  as loaded_at
     from {{ ref('product_h') }} h
     join current_s s on h.hk_product_h = s.hk_product_h
-    where h.hk_product_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
+    where h.hk_product_h not in ({{ unknown_key() }}, {{ error_key() }})
 ),
 
 performance as (

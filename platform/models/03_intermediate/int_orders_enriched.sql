@@ -1,8 +1,3 @@
-{%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
-    hash_function=var('datavault4dbt.hash', 'MD5'),
-    hash_datatype=var('datavault4dbt.hash_datatype', 'STRING')
-)) -%}
-
 with current_order_sat as (
     select *
     from {{ ref('order_oms_n_s_v1') }}
@@ -25,7 +20,7 @@ orders as (
     join {{ ref('order_customer_l') }} l   on o.hk_order_h   = l.hk_order_h
     join {{ ref('customer_h') }} c         on l.hk_customer_h = c.hk_customer_h
     join current_order_sat s               on o.hk_order_h   = s.hk_order_h
-    where o.hk_order_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
+    where o.hk_order_h not in ({{ unknown_key() }}, {{ error_key() }})
 ),
 
 current_product_sat as (
@@ -53,14 +48,14 @@ order_items as (
     join {{ ref('order_item_h') }} oi  on nl.hk_order_item_h = oi.hk_order_item_h
     join {{ ref('order_h') }} o        on nl.hk_order_h      = o.hk_order_h
     join {{ ref('product_h') }} p      on nl.hk_product_h    = p.hk_product_h
-    where oi.hk_order_item_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
+    where oi.hk_order_item_h not in ({{ unknown_key() }}, {{ error_key() }})
 ),
 
 products as (
     select h.product_id, s.category
     from {{ ref('product_h') }} h
     join current_product_sat s on h.hk_product_h = s.hk_product_h
-    where h.hk_product_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
+    where h.hk_product_h not in ({{ unknown_key() }}, {{ error_key() }})
 ),
 
 returns as (
@@ -68,7 +63,7 @@ returns as (
     from {{ ref('return_h') }} r
     join {{ ref('return_order_order_item_l') }} l on r.hk_return_h = l.hk_return_h
     join {{ ref('order_h') }} o                   on l.hk_order_h  = o.hk_order_h
-    where r.hk_return_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
+    where r.hk_return_h not in ({{ unknown_key() }}, {{ error_key() }})
     group by o.order_id
 ),
 
