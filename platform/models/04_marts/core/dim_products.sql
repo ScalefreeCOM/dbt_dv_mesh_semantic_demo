@@ -1,7 +1,7 @@
-{%- set default_hashes = datavault4dbt.hash_default_values(
+{%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
     hash_function=var('datavault4dbt.hash', 'MD5'),
     hash_datatype=var('datavault4dbt.hash_datatype', 'STRING')
-) | fromjson -%}
+)) -%}
 
 with current_s as (
     select *
