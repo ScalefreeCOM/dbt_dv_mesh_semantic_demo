@@ -3,7 +3,7 @@
 {%- set yaml_metadata -%}
 source_model: "raw_payments"
 ldts: '_loaded_at'
-rsrc: 'Payment_Gateway.raw_payments'
+rsrc: '!Payment_Gateway.raw_payments'
 hashed_columns:
     hk_payment_h:
         - payment_id

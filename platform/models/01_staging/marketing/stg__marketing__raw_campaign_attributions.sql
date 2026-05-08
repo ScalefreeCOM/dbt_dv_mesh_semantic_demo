@@ -3,7 +3,7 @@
 {%- set yaml_metadata -%}
 source_model: "raw_campaign_attributions"
 ldts: '_loaded_at'
-rsrc: 'Marketing.raw_campaign_attributions'
+rsrc: '!Marketing.raw_campaign_attributions'
 hashed_columns:
     hk_attribution_h:
         - attribution_id

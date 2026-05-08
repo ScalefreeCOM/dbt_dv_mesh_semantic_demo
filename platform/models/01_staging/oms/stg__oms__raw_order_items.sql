@@ -3,7 +3,7 @@
 {%- set yaml_metadata -%}
 source_model: "raw_order_items"
 ldts: '_loaded_at'
-rsrc: 'OMS.raw_order_items'
+rsrc: '!OMS.raw_order_items'
 hashed_columns:
     hk_order_item_h:
         - order_item_id

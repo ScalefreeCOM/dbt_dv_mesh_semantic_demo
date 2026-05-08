@@ -3,7 +3,7 @@
 {%- set yaml_metadata -%}
 source_model: "raw_shipments"
 ldts: '_loaded_at'
-rsrc: 'Logistics.raw_shipments'
+rsrc: '!Logistics.raw_shipments'
 hashed_columns:
     hk_shipment_h:
         - shipment_id

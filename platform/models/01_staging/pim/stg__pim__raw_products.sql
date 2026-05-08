@@ -3,7 +3,7 @@
 {%- set yaml_metadata -%}
 source_model: "raw_products"
 ldts: '_loaded_at'
-rsrc: 'PIM.raw_products'
+rsrc: '!PIM.raw_products'
 hashed_columns:
     hk_product_h:
         - product_id

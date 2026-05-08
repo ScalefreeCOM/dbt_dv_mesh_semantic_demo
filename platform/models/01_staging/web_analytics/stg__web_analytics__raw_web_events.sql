@@ -3,7 +3,7 @@
 {%- set yaml_metadata -%}
 source_model: "raw_web_events"
 ldts: '_loaded_at'
-rsrc: 'Web_Analytics.raw_web_events'
+rsrc: '!Web_Analytics.raw_web_events'
 hashed_columns:
     hk_event_h:
         - event_id

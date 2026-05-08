@@ -3,7 +3,7 @@
 {%- set yaml_metadata -%}
 source_model: "raw_customers"
 ldts: '_loaded_at'
-rsrc: 'CRM.raw_customers'
+rsrc: '!CRM.raw_customers'
 hashed_columns:
     hk_customer_h:
         - customer_id
