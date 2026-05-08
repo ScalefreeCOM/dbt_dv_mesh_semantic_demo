@@ -36,6 +36,7 @@ customers as (
     from {{ ref('customer_h') }} h
     left join current_p p on h.hk_customer_h = p.hk_customer_h
     left join current_n n on h.hk_customer_h = n.hk_customer_h
+    where h.hk_customer_h not in ('{{ datavault4dbt.unknown_key }}', '{{ datavault4dbt.error_key }}')
 ),
 
 order_summary as (
