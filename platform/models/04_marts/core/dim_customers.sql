@@ -1,3 +1,8 @@
+{%- set default_hashes = datavault4dbt.hash_default_values(
+    hash_function=var('datavault4dbt.hash', 'MD5'),
+    hash_datatype=var('datavault4dbt.hash_datatype', 'STRING')
+) | fromjson -%}
+
 with current_p as (
     select *
     from {{ ref('customer_crm_p_s_v1') }}
@@ -28,7 +33,7 @@ customers as (
     from {{ ref('customer_h') }} h
     left join current_p p on h.hk_customer_h = p.hk_customer_h
     left join current_n n on h.hk_customer_h = n.hk_customer_h
-    where h.hk_customer_h not in ('{{ datavault4dbt.unknown_key }}', '{{ datavault4dbt.error_key }}')
+    where h.hk_customer_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
 ),
 
 order_summary as (

@@ -1,3 +1,8 @@
+{%- set default_hashes = datavault4dbt.hash_default_values(
+    hash_function=var('datavault4dbt.hash', 'MD5'),
+    hash_datatype=var('datavault4dbt.hash_datatype', 'STRING')
+) | fromjson -%}
+
 with current_payment_sat as (
     select *
     from {{ ref('payment_pgw_n_s_v1') }}
@@ -30,6 +35,7 @@ payments as (
     join {{ ref('payment_order_nl') }} l   on p.hk_payment_h  = l.hk_payment_h
     join {{ ref('order_h') }} o            on l.hk_order_h    = o.hk_order_h
     join current_payment_sat s             on p.hk_payment_h  = s.hk_payment_h
+    where p.hk_payment_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
 ),
 
 current_order_sat as (
@@ -47,6 +53,7 @@ orders as (
     join {{ ref('order_customer_l') }} l   on o.hk_order_h   = l.hk_order_h
     join {{ ref('customer_h') }} c         on l.hk_customer_h = c.hk_customer_h
     join current_order_sat s               on o.hk_order_h   = s.hk_order_h
+    where o.hk_order_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
 ),
 
 final as (
