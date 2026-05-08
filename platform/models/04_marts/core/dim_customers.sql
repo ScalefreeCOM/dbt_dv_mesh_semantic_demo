@@ -1,11 +1,3 @@
-{{
-  config(
-    materialized = 'table',
-    schema = 'core',
-    tags = ['mart', 'core', 'customers', 'pii']
-  )
-}}
-
 with current_p as (
     select *
     from {{ ref('customer_crm_p_s_v1') }}

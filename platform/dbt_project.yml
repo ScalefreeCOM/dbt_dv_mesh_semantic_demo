@@ -29,10 +29,10 @@ models:
       +tags: ['raw_vault']
       +on_schema_change: fail
     03_intermediate:
-      +materialized: ephemeral
+      +materialized: view
     04_marts:
       core:
-        +materialized: table
+        +materialized: view
         +schema: core
 
 seeds:

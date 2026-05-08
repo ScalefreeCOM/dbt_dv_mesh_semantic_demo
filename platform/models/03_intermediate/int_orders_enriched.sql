@@ -1,12 +1,3 @@
-{{
-  config(
-    materialized = 'table',
-    schema = 'intermediate',
-    tags = ['intermediate', 'orders'],
-    cluster_by = ['order_date', 'customer_id']
-  )
-}}
-
 with current_order_sat as (
     select *
     from {{ ref('order_oms_n_s_v1') }}

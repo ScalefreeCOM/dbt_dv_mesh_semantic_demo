@@ -1,11 +1,3 @@
-{{
-  config(
-    materialized = 'table',
-    schema = 'core',
-    tags = ['mart', 'core', 'products']
-  )
-}}
-
 with current_s as (
     select *
     from {{ ref('product_pim_n_s_v1') }}

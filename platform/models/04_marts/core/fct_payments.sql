@@ -1,14 +1,3 @@
-{{
-  config(
-    materialized = 'incremental',
-    schema = 'core',
-    tags = ['mart', 'core', 'payments'],
-    unique_key = 'payment_id',
-    incremental_strategy = 'merge',
-    on_schema_change = 'append_new_columns'
-  )
-}}
-
 with current_payment_sat as (
     select *
     from {{ ref('payment_pgw_n_s_v1') }}

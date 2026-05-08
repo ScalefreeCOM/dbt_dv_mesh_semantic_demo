@@ -1,11 +1,3 @@
-{{
-  config(
-    materialized = 'table',
-    schema = 'core',
-    tags = ['mart', 'core', 'date']
-  )
-}}
-
 with date_spine as (
     select dateadd('day', seq4(), cast('2022-01-01' as date)) as date_day
     from table(generator(rowcount => 1826))

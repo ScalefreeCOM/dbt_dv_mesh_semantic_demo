@@ -1,14 +1,3 @@
-{{
-  config(
-    materialized = 'incremental',
-    schema = 'core',
-    tags = ['mart', 'core', 'orders'],
-    unique_key = 'order_item_id',
-    incremental_strategy = 'merge',
-    on_schema_change = 'append_new_columns'
-  )
-}}
-
 with order_items as (
     select
         oi.order_item_id,
