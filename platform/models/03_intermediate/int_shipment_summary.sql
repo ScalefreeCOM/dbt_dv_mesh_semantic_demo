@@ -1,6 +1,11 @@
 -- Summarizes shipment data at order level, computing delivery performance metrics.
 -- Grain: one row per order.
 
+{%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
+    hash_function=var('datavault4dbt.hash', 'MD5'),
+    hash_datatype=var('datavault4dbt.hash_datatype', 'STRING')
+)) -%}
+
 with current_shipment_sat as (
     select *
     from {{ ref('shipment_logistics_n_s_v1') }}
@@ -22,6 +27,7 @@ shipments as (
     join {{ ref('shipment_order_nl') }} l  on sh.hk_shipment_h = l.hk_shipment_h
     join {{ ref('order_h') }} o            on l.hk_order_h     = o.hk_order_h
     join current_shipment_sat s            on sh.hk_shipment_h = s.hk_shipment_h
+    where sh.hk_shipment_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
 ),
 
 current_order_sat as (
@@ -34,6 +40,7 @@ orders as (
     select o.order_id, s.order_date
     from {{ ref('order_h') }} o
     join current_order_sat s on o.hk_order_h = s.hk_order_h
+    where o.hk_order_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
 ),
 
 -- In case there are multiple shipments per order, take the primary one

@@ -1,6 +1,11 @@
 -- Summarizes payment information at order level.
 -- Grain: one row per order (most recent / primary payment record).
 
+{%- set default_hashes = fromjson(datavault4dbt.hash_default_values(
+    hash_function=var('datavault4dbt.hash', 'MD5'),
+    hash_datatype=var('datavault4dbt.hash_datatype', 'STRING')
+)) -%}
+
 with current_payment_sat as (
     select *
     from {{ ref('payment_pgw_n_s_v1') }}
@@ -33,6 +38,7 @@ payments as (
     join {{ ref('payment_order_nl') }} l   on p.hk_payment_h  = l.hk_payment_h
     join {{ ref('order_h') }} o            on l.hk_order_h    = o.hk_order_h
     join current_payment_sat s             on p.hk_payment_h  = s.hk_payment_h
+    where p.hk_payment_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
 ),
 
 current_order_sat as (
@@ -45,6 +51,7 @@ orders as (
     select o.order_id, s.order_date
     from {{ ref('order_h') }} o
     join current_order_sat s on o.hk_order_h = s.hk_order_h
+    where o.hk_order_h not in ('{{ default_hashes.unknown_key }}', '{{ default_hashes.error_key }}')
 ),
 
 -- Aggregate payments to order level (an order may have retried payments)
