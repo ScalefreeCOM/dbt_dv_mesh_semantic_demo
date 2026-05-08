@@ -3,8 +3,8 @@
 
 with current_shipment_sat as (
     select *
-    from {{ ref('shipment_logistics_n_s_v0') }}
-    qualify row_number() over (partition by hk_shipment_h order by ldts desc) = 1
+    from {{ ref('shipment_logistics_n_s_v1') }}
+    where is_current = true
 ),
 
 shipments as (
@@ -26,8 +26,8 @@ shipments as (
 
 current_order_sat as (
     select *
-    from {{ ref('order_oms_n_s_v0') }}
-    qualify row_number() over (partition by hk_order_h order by ldts desc) = 1
+    from {{ ref('order_oms_n_s_v1') }}
+    where is_current = true
 ),
 
 orders as (

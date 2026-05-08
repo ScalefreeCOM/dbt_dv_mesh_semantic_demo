@@ -29,8 +29,8 @@ category_orders as (
     join {{ ref('product_h') }} ph on nl.hk_product_h = ph.hk_product_h
     join (
         select hk_product_h, category
-        from {{ ref('product_pim_n_s_v0') }}
-        qualify row_number() over (partition by hk_product_h order by ldts desc) = 1
+        from {{ ref('product_pim_n_s_v1') }}
+        where is_current = true
     ) ps on ph.hk_product_h = ps.hk_product_h
     group by o.customer_id, ps.category
 ),

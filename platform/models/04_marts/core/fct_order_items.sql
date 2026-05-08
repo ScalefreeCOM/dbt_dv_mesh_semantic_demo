@@ -24,8 +24,9 @@ with order_items as (
             2
         )                                                                       as line_revenue
     from {{ ref('order_item_order_product_nl') }} nl
-    join {{ ref('order_item_order_product_nl_s_v0') }} s
+    join {{ ref('order_item_order_product_nl_s_v1') }} s
         on nl.hk_order_item_order_product_nl = s.hk_order_item_order_product_nl
+        and s.is_current = true
     join {{ ref('order_item_h') }} oi  on nl.hk_order_item_h = oi.hk_order_item_h
     join {{ ref('order_h') }} o        on nl.hk_order_h      = o.hk_order_h
     join {{ ref('product_h') }} p      on nl.hk_product_h    = p.hk_product_h
@@ -33,8 +34,8 @@ with order_items as (
 
 current_order_sat as (
     select *
-    from {{ ref('order_oms_n_s_v0') }}
-    qualify row_number() over (partition by hk_order_h order by ldts desc) = 1
+    from {{ ref('order_oms_n_s_v1') }}
+    where is_current = true
 ),
 
 orders as (
@@ -56,8 +57,8 @@ returns as (
     left join {{ ref('order_item_h') }} oi         on rl.hk_order_item_h = oi.hk_order_item_h
     join (
         select hk_return_h, refund_status
-        from {{ ref('return_oms_n_s_v0') }}
-        qualify row_number() over (partition by hk_return_h order by ldts desc) = 1
+        from {{ ref('return_oms_n_s_v1') }}
+        where is_current = true
     ) rs on r.hk_return_h = rs.hk_return_h
     where rs.refund_status != 'rejected'
     group by oi.order_item_id

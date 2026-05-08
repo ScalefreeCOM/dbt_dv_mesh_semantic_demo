@@ -8,14 +8,14 @@
 
 with current_p as (
     select *
-    from {{ ref('customer_crm_p_s_v0') }}
-    qualify row_number() over (partition by hk_customer_h order by ldts desc) = 1
+    from {{ ref('customer_crm_p_s_v1') }}
+    where is_current = true
 ),
 
 current_n as (
     select *
-    from {{ ref('customer_crm_n_s_v0') }}
-    qualify row_number() over (partition by hk_customer_h order by ldts desc) = 1
+    from {{ ref('customer_crm_n_s_v1') }}
+    where is_current = true
 ),
 
 customers as (

@@ -11,8 +11,8 @@
 
 with current_payment_sat as (
     select *
-    from {{ ref('payment_pgw_n_s_v0') }}
-    qualify row_number() over (partition by hk_payment_h order by ldts desc) = 1
+    from {{ ref('payment_pgw_n_s_v1') }}
+    where is_current = true
 ),
 
 payments as (
@@ -45,8 +45,8 @@ payments as (
 
 current_order_sat as (
     select *
-    from {{ ref('order_oms_n_s_v0') }}
-    qualify row_number() over (partition by hk_order_h order by ldts desc) = 1
+    from {{ ref('order_oms_n_s_v1') }}
+    where is_current = true
 ),
 
 orders as (

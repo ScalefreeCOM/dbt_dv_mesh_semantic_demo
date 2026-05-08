@@ -9,8 +9,8 @@
 
 with current_order_sat as (
     select *
-    from {{ ref('order_oms_n_s_v0') }}
-    qualify row_number() over (partition by hk_order_h order by ldts desc) = 1
+    from {{ ref('order_oms_n_s_v1') }}
+    where is_current = true
 ),
 
 orders as (
@@ -33,8 +33,8 @@ orders as (
 
 current_product_sat as (
     select *
-    from {{ ref('product_pim_n_s_v0') }}
-    qualify row_number() over (partition by hk_product_h order by ldts desc) = 1
+    from {{ ref('product_pim_n_s_v1') }}
+    where is_current = true
 ),
 
 order_items as (
@@ -50,8 +50,9 @@ order_items as (
             2
         )                               as line_revenue
     from {{ ref('order_item_order_product_nl') }} nl
-    join {{ ref('order_item_order_product_nl_s_v0') }} s
+    join {{ ref('order_item_order_product_nl_s_v1') }} s
         on nl.hk_order_item_order_product_nl = s.hk_order_item_order_product_nl
+        and s.is_current = true
     join {{ ref('order_item_h') }} oi  on nl.hk_order_item_h = oi.hk_order_item_h
     join {{ ref('order_h') }} o        on nl.hk_order_h      = o.hk_order_h
     join {{ ref('product_h') }} p      on nl.hk_product_h    = p.hk_product_h

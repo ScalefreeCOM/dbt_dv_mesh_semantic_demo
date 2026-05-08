@@ -8,8 +8,8 @@
 
 with current_s as (
     select *
-    from {{ ref('product_pim_n_s_v0') }}
-    qualify row_number() over (partition by hk_product_h order by ldts desc) = 1
+    from {{ ref('product_pim_n_s_v1') }}
+    where is_current = true
 ),
 
 products as (
