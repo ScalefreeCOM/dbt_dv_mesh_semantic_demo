@@ -20,15 +20,20 @@ vars:
 
 models:
   platform:
-    staging:
+    01_staging:
       +materialized: view
-      +schema: stg
-    intermediate:
-      +materialized: ephemeral
-    marts:
+      +schema: rdv_stage
+    02_raw_vault:
+      +materialized: incremental
+      +schema: rdv
+      +tags: ['raw_vault']
+      +on_schema_change: fail
+    03_intermediate:
+      +materialized: view
+    04_marts:
       core:
-        +materialized: table
-        +schema: analytics
+        +materialized: view
+        +schema: core
 
 seeds:
   platform:
