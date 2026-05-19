@@ -18,7 +18,7 @@
         {{ exceptions.raise_compiler_error("The model '" ~ node['name'] ~ "' does not have a custom schema name set '" ~ node['test_metadata'] ~ "'" ) }}
     {%- endif -%}
 
-    {%- if env_var('DBT_DATABASE_PREFIX') in ['UAT', 'PROD'] -%}
+    {%- if env_var('DBT_DATABASE_PREFIX') == 'PROD' -%}
     {# for UAT and PROD Jobs #}
 
         {{ custom_schema_name | trim }}

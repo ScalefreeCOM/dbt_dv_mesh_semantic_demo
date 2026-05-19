@@ -18,16 +18,6 @@
         {{ exceptions.raise_compiler_error("The model '" ~ node['name'] ~ "' does not have a custom database name set '" ~ node['test_metadata'] ~ "'" ) }}
     {%- endif -%}
 
-    {%- if env_var('DBT_DATABASE_PREFIX') in ['UAT', 'PROD'] -%}
-    {# for UAT and PROD Jobs #}
-
-        {{ custom_database_name | trim }}
-
-    {%- else -%}
-    {# For CICD pipeline and developers #}
-
-        {{ env_var('DBT_DATABASE_PREFIX') }}__{{ custom_database_name | trim }}
-
-    {%- endif -%}
+    {{ env_var('DBT_DATABASE_PREFIX') }}__{{ custom_database_name | trim }}
 
 {%- endmacro %}
