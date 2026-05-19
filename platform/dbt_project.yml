@@ -20,17 +20,23 @@ vars:
 
 models:
   platform:
-    staging:
+    01_staging:
       +materialized: view
-      +schema: stg
-    intermediate:
-      +materialized: ephemeral
-    marts:
-      core:
-        +materialized: table
-        +schema: analytics
-
+      +database: BASE__STAGE
+      +schema: STAGING
+    02_raw_vault:
+      +database: BASE__CORE
+      +schema: RAW_VAULT
+    03_intermediate:
+      +materialized: view
+      +database: BASE__CORE
+      +schema: INTERMEDIATE
+    04_marts:
+      +materialized: view
+      +database: BASE__CORE
+      +schema: MARTS
 seeds:
   platform:
-    +schema: hb_dbt_scalefree
+    +database: BASE__STAGE
+    +schema: SOURCE_DATA__WEBSHOP
     +quote_columns: false
