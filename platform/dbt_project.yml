@@ -22,20 +22,21 @@ models:
   platform:
     01_staging:
       +materialized: view
-      +schema: rdv_stage
+      +database: BASE__STAGE
+      +schema: STAGING
     02_raw_vault:
-      +materialized: incremental
-      +schema: rdv
-      +tags: ['raw_vault']
-      +on_schema_change: fail
+      +database: BASE__CORE
+      +schema: RAW_VAULT
     03_intermediate:
       +materialized: view
+      +database: BASE__CORE
+      +schema: INTERMEDIATE
     04_marts:
-      core:
-        +materialized: view
-        +schema: core
-
+      +materialized: view
+      +database: BASE__CORE
+      +schema: MARTS
 seeds:
   platform:
-    +schema: hb_dbt_scalefree
+    +database: BASE__STAGE
+    +schema: SOURCE_DATA__WEBSHOP
     +quote_columns: false
