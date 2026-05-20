@@ -16,9 +16,10 @@ clean-targets:
 
 models:
   marketing:
+    +database: MARKETING__MARTS
     staging:
       +materialized: view
-      +schema: mkt_stg
+      +schema: MKT_STG
     marts:
       +materialized: table
-      +schema: mkt_analytics
+      +schema: MKT_ANALYTICS

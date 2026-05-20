@@ -16,9 +16,10 @@ clean-targets:
 
 models:
   data_science:
+    +database: DATA_SCIENCE__MARTS
     features:
       +materialized: table
-      +schema: ds_features
+      +schema: DS_FEATURES
     prep:
       +materialized: table
-      +schema: ds_prep
+      +schema: DS_PREP

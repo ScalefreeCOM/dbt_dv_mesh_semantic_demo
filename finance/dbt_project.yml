@@ -16,6 +16,7 @@ clean-targets:
 
 models:
   finance:
+    +database: MARKETING__MARTS
     marts:
       +materialized: table
-      +schema: fin_analytics
+      +schema: FIN_ANALYTICS
