@@ -76,7 +76,7 @@ models:
           meta:
             pii: true
       - name: age
-        data_type: number
+        data_type: number(38,0)
         description: "Current age of the customer in years, computed from birth_date."
         config:
           meta:
@@ -129,19 +129,19 @@ models:
           meta:
             pii: false
       - name: total_orders
-        data_type: number
+        data_type: number(38,0)
         description: "Total number of non-cancelled, non-pending orders placed by this customer."
         config:
           meta:
             pii: false
       - name: lifetime_value_eur
-        data_type: number
+        data_type: number(38,2)
         description: "Total net revenue contributed by this customer across all time in EUR. Also known as LTV or CLV."
         config:
           meta:
             pii: false
       - name: avg_order_value_eur
-        data_type: number
+        data_type: number(38,8)
         description: "Average net order value for this customer in EUR."
         config:
           meta:
@@ -159,13 +159,13 @@ models:
           meta:
             pii: false
       - name: days_since_last_order
-        data_type: number
+        data_type: number(38,0)
         description: "Number of days since the customer's most recent order. Used for recency scoring."
         config:
           meta:
             pii: false
       - name: customer_tenure_days
-        data_type: number
+        data_type: number(38,0)
         description: "Number of days since the customer's first order."
         config:
           meta:
@@ -179,7 +179,7 @@ models:
           meta:
             pii: false
       - name: total_items_returned
-        data_type: number
+        data_type: number(38,0)
         description: "Total number of items this customer has returned."
         config:
           meta:
@@ -402,25 +402,25 @@ models:
           - unique
           - not_null
       - name: date_key
-        data_type: number
+        data_type: number(38,0)
         description: "Integer date key in YYYYMMDD format for joining to fact tables."
       - name: day_of_week
-        data_type: number
+        data_type: number(38,0)
         description: "Day of week number (0=Sunday, 6=Saturday in Snowflake)."
       - name: day_name
         data_type: varchar
         description: "Full day name (e.g. Monday)."
       - name: month_num
-        data_type: number
+        data_type: number(38,0)
         description: "Month number (1-12)."
       - name: month_name
         data_type: varchar
         description: "Abbreviated month name (e.g. Jan)."
       - name: quarter
-        data_type: number
+        data_type: number(38,0)
         description: "Calendar quarter (1-4)."
       - name: year
-        data_type: number
+        data_type: number(38,0)
         description: "Calendar year."
       - name: is_weekend
         data_type: boolean
@@ -429,10 +429,10 @@ models:
         data_type: boolean
         description: "True if Monday through Friday."
       - name: week_of_year
-        data_type: number
+        data_type: number(38,0)
         description: "ISO week number within the year."
       - name: day_of_year
-        data_type: number
+        data_type: number(38,0)
         description: "Day of year (1-366)."
       - name: is_first_day_of_month
         data_type: boolean
@@ -444,7 +444,7 @@ models:
         data_type: varchar
         description: "Fiscal quarter label (FQ1-FQ4) assuming April fiscal year start."
       - name: fiscal_year
-        data_type: number
+        data_type: number(38,0)
         description: "Fiscal year (April-March)."
       - name: season
         data_type: varchar
@@ -508,7 +508,7 @@ models:
           meta:
             semantic_type: time
       - name: order_date_key
-        data_type: number
+        data_type: number(38,0)
         description: "Integer date key (YYYYMMDD) for joining to dim_date."
       - name: channel
         data_type: varchar
@@ -545,31 +545,31 @@ models:
         data_type: varchar
         description: "Promotional code applied. NULL if none."
       - name: item_count
-        data_type: number
+        data_type: number(38,0)
         description: "Number of distinct line items in the order."
         config:
           meta:
             semantic_type: metric
       - name: total_quantity
-        data_type: number
+        data_type: number(38,0)
         description: "Total units ordered across all line items."
         config:
           meta:
             semantic_type: metric
       - name: gross_revenue_eur
-        data_type: number
+        data_type: number(38,2)
         description: "Total revenue before discounts in EUR."
         config:
           meta:
             semantic_type: metric
       - name: discount_amount_eur
-        data_type: number
+        data_type: number(38,2)
         description: "Total discount applied to the order in EUR."
         config:
           meta:
             semantic_type: metric
       - name: net_revenue_eur
-        data_type: number
+        data_type: number(38,2)
         description: "Revenue after discounts (gross_revenue - discount_amount) in EUR."
         config:
           meta:
@@ -608,7 +608,7 @@ models:
           meta:
             semantic_type: categorical_status
       - name: total_paid_eur
-        data_type: number
+        data_type: number(38,2)
         description: "Total amount actually paid (and collected) in EUR."
         config:
           meta:
@@ -636,13 +636,13 @@ models:
           meta:
             semantic_type: categorical_status
       - name: days_to_ship
-        data_type: number
+        data_type: number(38,0)
         description: "Number of days from order date to shipment dispatch date."
         config:
           meta:
             semantic_type: metric
       - name: days_to_deliver
-        data_type: number
+        data_type: number(38,0)
         description: "Number of days from shipment to delivery. NULL if not yet delivered."
         config:
           meta:
@@ -780,25 +780,25 @@ models:
         data_type: varchar
         description: "Status of the parent order."
       - name: quantity
-        data_type: number
+        data_type: number(38,0)
         description: "Quantity of this product in the order."
         config:
           meta:
             semantic_type: metric
       - name: unit_price_eur
-        data_type: number
+        data_type: number(38,2)
         description: "Price per unit at time of order in EUR."
         config:
           meta:
             semantic_type: metric
       - name: discount_pct
-        data_type: number
+        data_type: number(38,8)
         description: "Line-item discount percentage applied."
         config:
           meta:
             semantic_type: metric
       - name: line_revenue_eur
-        data_type: number
+        data_type: number(38,2)
         description: "Total line revenue after discount in EUR (qty * price * (1 - disc%/100))."
         config:
           meta:
@@ -875,13 +875,13 @@ models:
         data_type: varchar
         description: "Original transaction currency code."
       - name: amount_original
-        data_type: number
+        data_type: number(38,2)
         description: "Payment amount in the original transaction currency."
         config:
           meta:
             semantic_type: metric
       - name: amount_eur
-        data_type: number
+        data_type: number(38,2)
         description: "Payment amount normalized to EUR."
         config:
           meta:
@@ -903,7 +903,7 @@ models:
           meta:
             semantic_type: flag
       - name: days_to_payment
-        data_type: number
+        data_type: number(38,0)
         description: "Number of days between order date and payment date."
         config:
           meta:
