@@ -1,5 +1,7 @@
 name: 'platform'
 version: '1.0.0'
+dbt-cloud:
+  project-id: 538624
 require-dbt-version: [">=1.9.0"]
 profile: 'platform'
 
@@ -35,6 +37,9 @@ models:
       +materialized: view
       +database: BASE__CORE
       +schema: MARTS
+  datavault4dbt_premium_package:
+    +database: BASE__AUDIT
+    +schema: DV4DBT_PREMIUM_PACKAGE
 seeds:
   platform:
     +database: BASE__STAGE
