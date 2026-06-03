@@ -1,5 +1,7 @@
 name: 'finance'
 version: '1.0.0'
+dbt-cloud:
+    project-id: 538635
 require-dbt-version: [">=1.9.0"]
 profile: 'finance'
 
