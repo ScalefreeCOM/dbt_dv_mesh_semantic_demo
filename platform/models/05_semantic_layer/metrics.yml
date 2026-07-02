@@ -28,3 +28,11 @@ metrics:
     window: 30 days
     period_agg: first
     label: "Revenue (Last 30 Days)"
+
+  # --- Inventory (built on fct_inventory_movements) ---
+  - name: shipment_to_receipt_ratio
+    description: "Units shipped relative to units received. A value near 1 indicates balanced throughput; sustained >1 implies stock depletion."
+    type: ratio
+    numerator: units_shipped
+    denominator: units_received
+    label: "Shipment-to-Receipt Ratio"
