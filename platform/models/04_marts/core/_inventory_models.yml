@@ -132,7 +132,7 @@ models:
         agg: sum
         expr: quantity
         fill_nulls_with: 0
-        filter: "movement_type = 'RECEIPT'"
+        filter: "{{ Dimension('inventory_movement__movement_type') }} = 'RECEIPT'"
         label: "Units Received"
       - name: units_shipped
         description: "Total units shipped out of stock (SHIPMENT movements)."
@@ -140,7 +140,7 @@ models:
         agg: sum
         expr: quantity
         fill_nulls_with: 0
-        filter: "movement_type = 'SHIPMENT'"
+        filter: "{{ Dimension('inventory_movement__movement_type') }} = 'SHIPMENT'"
         label: "Units Shipped"
       - name: net_stock_change
         description: "Net change in units in stock across all movements (sum of signed quantity). With no time filter this equals current stock on hand."
