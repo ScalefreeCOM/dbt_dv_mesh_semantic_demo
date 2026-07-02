@@ -38,7 +38,7 @@ models:
       +database: BASE__CORE
       +schema: MARTS
   datavault4dbt_premium_package:
-    +database: BASE__AUDIT
+    +database: BASE__STAGE
     +schema: DV4DBT_PREMIUM_PACKAGE
 seeds:
   platform:
