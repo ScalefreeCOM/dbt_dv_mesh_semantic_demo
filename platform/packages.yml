@@ -1,5 +1,3 @@
 packages:
   - git: "https://github.com/ScalefreeCOM/datavault4dbt.git"
     revision: "main"
-  - private: ScalefreeCOM/datavault4dbt-premium-package
-    provider: "github"

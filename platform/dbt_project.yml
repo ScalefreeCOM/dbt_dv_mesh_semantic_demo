@@ -1,7 +1,7 @@
 name: 'platform'
 version: '1.0.0'
 dbt-cloud:
-  project-id: 538624
+  project-id: 70403104004281
 require-dbt-version: [">=1.9.0"]
 profile: 'platform'
 
